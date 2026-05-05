@@ -17,13 +17,31 @@ A terminal user interface for [wayvibes](https://github.com/sahaj-b/wayvibes) â€
 
 ## Installation
 
-Install wayvibes-tui with a single command:
+### One liner
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/caml07/wayvibes-tui/main/install.sh | bash
 ```
 
-That's it. Run `wayvibes-tui` from anywhere in your terminal.
+### Manual
+
+Make sure [wayvibes](https://github.com/sahaj-b/wayvibes) is installed first.
+
+```sh
+git clone https://github.com/caml07/wayvibes-tui.git
+cd wayvibes-tui
+pip install --user --break-system-packages .
+```
+
+If `wayvibes-tui` is not found after installing, add `~/.local/bin` to your PATH:
+
+```sh
+# Bash/Zsh
+export PATH="$HOME/.local/bin:$PATH"
+
+# Fish
+fish_add_path ~/.local/bin
+```
 
 ---
 
