@@ -25,12 +25,12 @@ curl -fsSL https://raw.githubusercontent.com/caml07/wayvibes-tui/main/install.sh
 
 ### Manual
 
-Make sure [wayvibes](https://github.com/sahaj-b/wayvibes) is installed first.
+Make sure [wayvibes](https://github.com/sahaj-b/wayvibes) and [pipx](https://pipx.pypa.io) are installed first.
 
 ```sh
 git clone https://github.com/caml07/wayvibes-tui.git
 cd wayvibes-tui
-pip install --user --break-system-packages .
+pipx install .
 ```
 
 If `wayvibes-tui` is not found after installing, add `~/.local/bin` to your PATH:
