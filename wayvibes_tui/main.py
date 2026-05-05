@@ -98,6 +98,12 @@ class WayvibesTUI(App):
     SUB_TITLE = "soundpack manager"
     ENABLE_COMMAND_PALETTE = False
 
+    DEFAULT_CSS = """
+    #main-panel.active {
+        border-left: tall $accent;
+    }
+    """
+
     BINDINGS = [
         ("q", "quit", "Exit"),
         ("s", "toggle_wayvibes", "Start/Stop"),
@@ -166,6 +172,7 @@ class WayvibesTUI(App):
     def on_list_view_selected(self, event: ListView.Selected) -> None:
         self.active_pack = event.item.name
         self.query_one("#active-pack", Label).update(f"Pack: {self.active_pack}")
+        self.query_one("#main-panel", Vertical).add_class("active")
 
     def action_volume_up(self) -> None:
         if self.volume < 10.0:

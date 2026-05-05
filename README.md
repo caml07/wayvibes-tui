@@ -11,7 +11,6 @@ A terminal user interface for [wayvibes](https://github.com/sahaj-b/wayvibes) â€
 
 - [wayvibes](https://github.com/sahaj-b/wayvibes) installed and working
 - Python 3.11+
-- `pactl` / PipeWire or PulseAudio (for listing audio output devices)
 
 ---
 
@@ -69,6 +68,7 @@ Each soundpack should be its own subdirectory inside that folder. If you want to
 | `]` | Volume up |
 | `[` | Volume down |
 | `d` | Open device selector |
+| `t` | Change theme |
 | `q` | Quit |
 
 ---
@@ -91,6 +91,21 @@ On first launch, a config file is created automatically at `~/.config/wayvibes-t
 ```
 
 You can edit this file manually at any time. Changes take effect on the next launch.
+
+---
+
+## Themes
+
+wayvibes-tui comes with the following built-in themes:
+
+- `default` â€” follows your terminal colors
+- `gruvbox`
+- `nord`
+- `tokyo-night`
+- `textual-dark`
+- `catppuccin`
+
+The selected theme is saved automatically to `~/.config/wayvibes-tui/config.json`.
 
 ---
 
