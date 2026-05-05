@@ -84,9 +84,9 @@ On first launch, a config file is created automatically at `~/.config/wayvibes-t
   },
   "wayvibes": {
     "volume": 1.0,
-    "input_device": "",
-    "output_device": ""
-  }
+    "input_device": ""
+  },
+  "theme": "textual-dark"
 }
 ```
 
