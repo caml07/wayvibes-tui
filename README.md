@@ -11,37 +11,19 @@ A terminal user interface for [wayvibes](https://github.com/sahaj-b/wayvibes) â€
 
 - [wayvibes](https://github.com/sahaj-b/wayvibes) installed and working
 - Python 3.11+
-- `libinput` (for listing input devices)
 - `pactl` / PipeWire or PulseAudio (for listing audio output devices)
 
 ---
 
 ## Installation
 
-**1. Install wayvibes**
-
-Follow the instructions on the [wayvibes repository](https://github.com/sahaj-b/wayvibes) to build and install the binary. Make sure `wayvibes` is available in your `$PATH` before continuing.
-
-**2. Clone this repository**
+Install wayvibes-tui with a single command:
 
 ```sh
-git clone https://github.com/caml07/wayvibes-tui.git
-cd wayvibes-tui
+curl -fsSL https://raw.githubusercontent.com/caml07/wayvibes-tui/main/install.sh | bash
 ```
 
-**3. Set up the Python environment**
-
-```sh
-python -m venv .venv
-source .venv/bin/activate  # fish: source .venv/bin/activate.fish
-pip install textual
-```
-
-**4. Run**
-
-```sh
-python main.py
-```
+That's it. Run `wayvibes-tui` from anywhere in your terminal.
 
 ---
 
