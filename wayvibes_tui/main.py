@@ -98,8 +98,15 @@ class WayvibesTUI(App):
     ENABLE_COMMAND_PALETTE = False
 
     DEFAULT_CSS = """
+    #main-panel {
+        padding: 1 2;
+    }
     #main-panel.active {
         border-left: tall $accent;
+        padding: 1 2;
+    }
+    #sidebar {
+        width: 50%;
     }
     """
 
@@ -169,6 +176,8 @@ class WayvibesTUI(App):
         yield Footer()
 
     def on_list_view_selected(self, event: ListView.Selected) -> None:
+        if event.list_view.id != "pack-list":
+            return
         self.active_pack = event.item.name
         self.query_one("#active-pack", Label).update(f"Pack: {self.active_pack}")
         self.query_one("#main-panel", Vertical).add_class("active")
