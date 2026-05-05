@@ -25,4 +25,6 @@ pip install --user .
 
 echo ""
 echo "Done! Run with: wayvibes-tui"
-echo "If the command is not found, make sure ~/.local/bin is in your PATH"
+echo ""
+echo "If the command is not found, add this to your shell config:"
+echo "  export PATH=\"\$HOME/.local/bin:\$PATH\""
