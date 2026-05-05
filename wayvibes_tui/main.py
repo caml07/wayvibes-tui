@@ -104,12 +104,9 @@ class WayvibesTUI(App):
     #sidebar {
         width: 50%;
     }
-    #active-pack {
-        color: $text-muted;
-    }
-    #active-pack.selected {
-        color: $accent;
-        text-style: bold;
+    #main-panel.active {
+        padding: 1 2;
+        border: round $accent;
     }
     """
 
@@ -182,9 +179,8 @@ class WayvibesTUI(App):
         if event.list_view.id != "pack-list":
             return
         self.active_pack = event.item.name
-        label = self.query_one("#active-pack", Label)
-        label.update(f"Pack: {self.active_pack}")
-        label.add_class("selected")
+        self.query_one("#active-pack", Label).update(f"Pack: {self.active_pack}")
+        self.query_one("#main-panel", Vertical).add_class("active")
 
     def action_volume_up(self) -> None:
         if self.volume < 10.0:
