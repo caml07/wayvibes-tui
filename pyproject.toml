@@ -17,6 +17,9 @@ dependencies = { file = ["requirements.txt"] }
 [project.scripts]
 wayvibes-tui = "wayvibes_tui.main:main"
 
+[tool.setuptools.package-data]
+wayvibes_tui = ["themes/*.css"]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["wayvibes_tui*"]
