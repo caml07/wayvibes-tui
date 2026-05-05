@@ -12,23 +12,6 @@ from wayvibes_tui.config import load_config, save_config
 PID_FILE = Path("/tmp/wayvibes-tui.pid")
 
 
-def get_output_devices() -> list[str]:
-    try:
-        result = subprocess.run(
-            ["pactl", "list", "sinks", "short"],
-            capture_output=True,
-            text=True
-        )
-        devices = []
-        for line in result.stdout.splitlines():
-            parts = line.split()
-            if len(parts) >= 2:
-                devices.append(parts[1])
-        return devices
-    except Exception:
-        return []
-
-
 def is_wayvibes_running() -> bool:
     if not PID_FILE.exists():
         return False
@@ -45,12 +28,10 @@ class DeviceScreen(ModalScreen):
 
     BINDINGS = [("escape", "dismiss", "Close")]
 
-    def __init__(self, input_devices: list[str], output_devices: list[str], current_input: str, current_output: str):
+    def __init__(self, input_devices: list[str], current_input: str):
         super().__init__()
         self.input_devices = input_devices
-        self.output_devices = output_devices
         self.current_input = current_input
-        self.current_output = current_output
 
     def compose(self) -> ComposeResult:
         with Vertical(id="device-modal"):
@@ -60,20 +41,10 @@ class DeviceScreen(ModalScreen):
                 *[ListItem(Label(d), name=d) for d in self.input_devices],
                 id="input-list"
             )
-            yield Label("── Output Device (audio) ──", id="output-title")
-            yield ListView(
-                ListItem(Label("default"), name=""),
-                *[ListItem(Label(d), name=d) for d in self.output_devices],
-                id="output-list"
-            )
             yield Label("ESC to close", id="modal-hint")
 
     def on_list_view_selected(self, event: ListView.Selected) -> None:
-        list_id = event.list_view.id
-        if list_id == "input-list":
-            self.dismiss(("input", event.item.name))
-        elif list_id == "output-list":
-            self.dismiss(("output", event.item.name))
+        self.dismiss(("input", event.item.name))
 
 
 class WayvibesTUI(App):
@@ -96,7 +67,6 @@ class WayvibesTUI(App):
         self.soundpacks_dir = Path(self.config["general"]["soundpacks_dir"])
         self.volume = self.config["wayvibes"]["volume"]
         self.input_device = self.config["wayvibes"].get("input_device", "")
-        self.output_device = self.config["wayvibes"].get("output_device", "")
         self.active_pack = None
 
     def get_soundpacks(self) -> list[str]:
@@ -140,7 +110,6 @@ class WayvibesTUI(App):
                 yield Label("None selected", id="active-pack")
                 yield Label(f"Volume: {self.volume:.1f}", id="volume-label")
                 yield Label(f"Input: {self.input_device or 'default'}", id="input-label")
-                yield Label(f"Output: {self.output_device or 'default'}", id="output-label")
                 running = is_wayvibes_running()
                 status = "Status: running ▶" if running else "Status: stopped ■"
                 yield Label(status, id="status-label")
@@ -182,9 +151,6 @@ class WayvibesTUI(App):
         if self.input_device:
             cmd += ["--device-name", self.input_device]
 
-        if self.output_device:
-            cmd += ["--sink-name", self.output_device]
-
         process = subprocess.Popen(
             cmd,
             stdout=subprocess.DEVNULL,
@@ -207,7 +173,6 @@ class WayvibesTUI(App):
 
     def action_change_device(self) -> None:
         input_devices = self.get_input_devices()
-        output_devices = get_output_devices()
 
         def on_dismiss(result: tuple | None) -> None:
             if result is None:
@@ -219,10 +184,6 @@ class WayvibesTUI(App):
                 self.input_device = selected
                 self.config["wayvibes"]["input_device"] = selected
                 self.query_one("#input-label", Label).update(f"Input: {selected or 'default'}")
-            elif kind == "output":
-                self.output_device = selected
-                self.config["wayvibes"]["output_device"] = selected
-                self.query_one("#output-label", Label).update(f"Output: {selected or 'default'}")
 
             save_config(self.config)
 
@@ -232,7 +193,7 @@ class WayvibesTUI(App):
                 self.notify("Device changed — wayvibes restarted")
 
         self.push_screen(
-            DeviceScreen(input_devices, output_devices, self.input_device, self.output_device),
+            DeviceScreen(input_devices, self.input_device),
             on_dismiss
         )
 

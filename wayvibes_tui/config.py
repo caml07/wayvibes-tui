@@ -13,7 +13,6 @@ DEFAULT_CONFIG = {
     "wayvibes": {
         "volume": 1.0,
         "input_device": "",
-        "output_device": "",
     },
 }
 
