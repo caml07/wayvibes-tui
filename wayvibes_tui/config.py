@@ -14,6 +14,7 @@ DEFAULT_CONFIG = {
         "volume": 1.0,
         "input_device": "",
     },
+    "theme": "default",
 }
 
 

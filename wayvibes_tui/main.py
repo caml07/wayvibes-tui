@@ -3,10 +3,36 @@ import os
 import signal
 from pathlib import Path
 from textual.app import App, ComposeResult
+from textual.theme import Theme
 from textual.widgets import Header, Footer, Label, ListView, ListItem
 from textual.containers import Horizontal, Vertical
 from textual.screen import ModalScreen
 from wayvibes_tui.config import load_config, save_config
+
+
+CATPPUCCIN = Theme(
+    name="catppuccin",
+    primary="#cba6f7",
+    secondary="#89b4fa",
+    accent="#f5c2e7",
+    foreground="#cdd6f4",
+    background="#1e1e2e",
+    success="#a6e3a1",
+    warning="#f9e2af",
+    error="#f38ba8",
+    surface="#313244",
+    panel="#45475a",
+    dark=True,
+)
+
+AVAILABLE_THEMES = [
+    "default",
+    "gruvbox",
+    "nord",
+    "tokyo-night",
+    "textual-dark",
+    "catppuccin",
+]
 
 
 PID_FILE = Path("/tmp/wayvibes-tui.pid")
@@ -68,6 +94,8 @@ class WayvibesTUI(App):
         self.volume = self.config["wayvibes"]["volume"]
         self.input_device = self.config["wayvibes"].get("input_device", "")
         self.active_pack = None
+        self.register_theme(CATPPUCCIN)
+        self.theme = self.config.get("theme", "default")
 
     def get_soundpacks(self) -> list[str]:
         if not self.soundpacks_dir.exists():
