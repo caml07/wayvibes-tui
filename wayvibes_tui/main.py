@@ -72,6 +72,25 @@ class DeviceScreen(ModalScreen):
     def on_list_view_selected(self, event: ListView.Selected) -> None:
         self.dismiss(("input", event.item.name))
 
+class ThemeScreen(ModalScreen):
+
+    BINDINGS = [("escape", "dismiss", "Close")]
+
+    def __init__(self, current_theme: str):
+        super().__init__()
+        self.current_theme = current_theme
+
+    def compose(self) -> ComposeResult:
+        with Vertical(id="theme-modal"):
+            yield Label("── Select Theme ──", id="theme-title")
+            yield ListView(
+                *[ListItem(Label(t), name=t) for t in AVAILABLE_THEMES],
+                id="theme-list"
+            )
+            yield Label("ESC to close", id="modal-hint")
+
+    def on_list_view_selected(self, event: ListView.Selected) -> None:
+        self.dismiss(event.item.name)
 
 class WayvibesTUI(App):
 
@@ -85,6 +104,7 @@ class WayvibesTUI(App):
         ("]", "volume_up", "Vol +"),
         ("[", "volume_down", "Vol -"),
         ("d", "change_device", "Devices"),
+        ("t", "change_theme", "Theme"),
     ]
 
     def __init__(self):
@@ -224,6 +244,17 @@ class WayvibesTUI(App):
             DeviceScreen(input_devices, self.input_device),
             on_dismiss
         )
+
+    def action_change_theme(self) -> None:
+
+        def on_dismiss(selected: str | None) -> None:
+            if selected is None:
+                return
+            self.theme = selected
+            self.config["theme"] = selected
+            save_config(self.config)
+
+        self.push_screen(ThemeScreen(self.theme), on_dismiss)
 
     def on_unmount(self) -> None:
         pass
