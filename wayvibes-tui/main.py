@@ -12,23 +12,6 @@ from config import load_config, save_config
 PID_FILE = Path("/tmp/wayvibes-tui.pid")
 
 
-def get_input_devices() -> list[str]:
-    try:
-        result = subprocess.run(
-            ["libinput", "list-devices"],
-            capture_output=True,
-            text=True
-        )
-        devices = []
-        for line in result.stdout.splitlines():
-            if line.startswith("Device:"):
-                name = line.replace("Device:", "").strip()
-                devices.append(name)
-        return devices
-    except Exception:
-        return []
-
-
 def get_output_devices() -> list[str]:
     try:
         result = subprocess.run(
@@ -120,7 +103,26 @@ class WayvibesTUI(App):
     def get_soundpacks(self) -> list[str]:
         if not self.soundpacks_dir.exists():
             return []
-        return sorted([d.name for d in self.soundpacks_dir.iterdir() if d.is_dir()])
+        return [d.name for d in self.soundpacks_dir.iterdir() if d.is_dir()]
+
+    def get_input_devices(self) -> list[str]:
+        devices = []
+
+        by_id = Path("/dev/input/by-id")
+        if by_id.exists():
+            devices += sorted([
+                d.name for d in by_id.iterdir()
+                if "kbd" in d.name or "keyboard" in d.name.lower()
+            ])
+
+        by_path = Path("/dev/input/by-path")
+        if by_path.exists():
+            devices += sorted([
+                d.name for d in by_path.iterdir()
+                if "kbd" in d.name
+            ])
+
+        return devices
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -205,7 +207,7 @@ class WayvibesTUI(App):
             self.query_one("#status-label", Label).update("Status: stopped ■")
 
     def action_change_device(self) -> None:
-        input_devices = get_input_devices()
+        input_devices = self.get_input_devices()
         output_devices = get_output_devices()
 
         def on_dismiss(result: tuple | None) -> None:
@@ -228,6 +230,9 @@ class WayvibesTUI(App):
         pass
 
 
-if __name__ == "__main__":
+def main():
     app = WayvibesTUI()
     app.run()
+
+if __name__ == "__main__":
+    main()
