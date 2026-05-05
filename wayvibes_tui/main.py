@@ -26,11 +26,10 @@ CATPPUCCIN = Theme(
 )
 
 AVAILABLE_THEMES = [
-    "default",
+    "textual-dark",
     "gruvbox",
     "nord",
     "tokyo-night",
-    "textual-dark",
     "catppuccin",
 ]
 
@@ -121,7 +120,7 @@ class WayvibesTUI(App):
         self.input_device = self.config["wayvibes"].get("input_device", "")
         self.active_pack = None
         self.register_theme(CATPPUCCIN)
-        self.theme = self.config.get("theme", "default")
+        self.theme = self.config.get("theme", "textual-dark")
 
     def get_soundpacks(self) -> list[str]:
         if not self.soundpacks_dir.exists():
