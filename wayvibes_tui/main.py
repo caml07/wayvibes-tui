@@ -6,7 +6,7 @@ from textual.app import App, ComposeResult
 from textual.widgets import Header, Footer, Label, ListView, ListItem
 from textual.containers import Horizontal, Vertical
 from textual.screen import ModalScreen
-from config import load_config, save_config
+from wayvibes_tui.config import load_config, save_config
 
 
 PID_FILE = Path("/tmp/wayvibes-tui.pid")
@@ -51,7 +51,6 @@ class DeviceScreen(ModalScreen):
         self.output_devices = output_devices
         self.current_input = current_input
         self.current_output = current_output
-        self.selecting = "input"
 
     def compose(self) -> ComposeResult:
         with Vertical(id="device-modal"):
@@ -103,7 +102,7 @@ class WayvibesTUI(App):
     def get_soundpacks(self) -> list[str]:
         if not self.soundpacks_dir.exists():
             return []
-        return [d.name for d in self.soundpacks_dir.iterdir() if d.is_dir()]
+        return sorted([d.name for d in self.soundpacks_dir.iterdir() if d.is_dir()])
 
     def get_input_devices(self) -> list[str]:
         devices = []
@@ -244,6 +243,7 @@ class WayvibesTUI(App):
 def main():
     app = WayvibesTUI()
     app.run()
+
 
 if __name__ == "__main__":
     main()

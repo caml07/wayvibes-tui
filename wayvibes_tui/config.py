@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 CONFIG_DIR = Path.home() / ".config" / "wayvibes-tui"
-CONFIG_FILE = CONFIG_DIR / "config.toml"
+CONFIG_FILE = CONFIG_DIR / "config.json"
 DEFAULT_SOUNDPACKS_DIR = Path.home() / "wayvibes" / "soundpacks"
 
 DEFAULT_CONFIG = {
@@ -12,7 +12,8 @@ DEFAULT_CONFIG = {
     },
     "wayvibes": {
         "volume": 1.0,
-        "device": "",
+        "input_device": "",
+        "output_device": "",
     },
 }
 
