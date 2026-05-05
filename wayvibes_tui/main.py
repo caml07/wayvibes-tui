@@ -25,12 +25,96 @@ CATPPUCCIN = Theme(
     dark=True,
 )
 
+ROSE_PINE = Theme(
+    name="rose-pine",
+    primary="#c4a7e7",
+    secondary="#9ccfd8",
+    accent="#ebbcba",
+    foreground="#e0def4",
+    background="#191724",
+    success="#31748f",
+    warning="#f6c177",
+    error="#eb6f92",
+    surface="#1f1d2e",
+    panel="#26233a",
+    dark=True,
+)
+
+EVERFOREST = Theme(
+    name="everforest",
+    primary="#a7c080",
+    secondary="#83c092",
+    accent="#dbbc7f",
+    foreground="#d3c6aa",
+    background="#2d353b",
+    success="#a7c080",
+    warning="#dbbc7f",
+    error="#e67e80",
+    surface="#343f44",
+    panel="#3d484d",
+    dark=True,
+)
+
+DRACULA = Theme(
+    name="dracula-custom",
+    primary="#bd93f9",
+    secondary="#8be9fd",
+    accent="#ff79c6",
+    foreground="#f8f8f2",
+    background="#282a36",
+    success="#50fa7b",
+    warning="#ffb86c",
+    error="#ff5555",
+    surface="#313442",
+    panel="#3d3f4e",
+    dark=True,
+)
+
+KANAGAWA = Theme(
+    name="kanagawa",
+    primary="#7e9cd8",
+    secondary="#6a9589",
+    accent="#e46876",
+    foreground="#dcd7ba",
+    background="#1f1f28",
+    success="#98bb6c",
+    warning="#e6c384",
+    error="#e82424",
+    surface="#2a2a37",
+    panel="#363646",
+    dark=True,
+)
+
+MATERIAL_OCEAN = Theme(
+    name="material-ocean",
+    primary="#82aaff",
+    secondary="#89ddff",
+    accent="#c3e88d",
+    foreground="#eeffff",
+    background="#0f111a",
+    success="#c3e88d",
+    warning="#ffcb6b",
+    error="#f07178",
+    surface="#1b1e2b",
+    panel="#222436",
+    dark=True,
+)
+
 AVAILABLE_THEMES = [
     "textual-dark",
+    "textual-light",
     "gruvbox",
     "nord",
     "tokyo-night",
+    "solarized-light",
+    "atom-one-dark",
+    "monokai",
     "catppuccin",
+    "rose-pine",
+    "everforest",
+    "dracula-custom",
+    "kanagawa",
+    "material-ocean",
 ]
 
 
@@ -133,6 +217,11 @@ class WayvibesTUI(App):
         self.input_device = self.config["wayvibes"].get("input_device", "")
         self.active_pack = None
         self.register_theme(CATPPUCCIN)
+        self.register_theme(ROSE_PINE)
+        self.register_theme(EVERFOREST)
+        self.register_theme(DRACULA)
+        self.register_theme(KANAGAWA)
+        self.register_theme(MATERIAL_OCEAN)
         self.theme = self.config.get("theme", "textual-dark")
 
     def get_soundpacks(self) -> list[str]:
